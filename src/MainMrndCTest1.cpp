@@ -68,15 +68,72 @@ void printSll(struct node *head,int len){
 }
 
 void make_it_circular(struct node *head){
-	//Makes a Normal SLL circular ,Make Last->next=head;
-
+	struct node *temp = head;
+	while (head->next != NULL){
+		head = head->next;
+	}
+	head->next = temp;
 }
+int is_correct(struct node *head, int *arr, int len){
+	int i = 0;
+	while (head != NULL){
+		int data = head->data;
+		if (arr[i] != data){
+			return 0;
+		}
+		else{
+			i++;
+			head = head->next;
+		}
 
+		if (head == NULL){
+			return 0;
+		}
+		if (i == len){
+			return 1;
+		}
+	}
+}
 //End of Helper Functions
 
 int main(){
 
 	//Test Sequences
+	/*int arr[10] = { 1, 2, 3, 5, 10, 15, 30, 60 };
+	int *res = find_sequences(&arr[0], 8);
+	for (int i = 0; i < 6; i++)
+		printf("%d\n", res[i]);*/
+	/*int dates[2][8] = { { 2, 2, 0, 5, 1,9,9,6 }, { 0, 9,0,8,1,9,9,6 } };
+
+	struct node *date1head = NULL, *date2head = NULL;
+	for (int i = 7; i >= 0; i--){
+		addNode(&date1head, dates[0][i]);
+		addNode(&date2head, dates[1][i]);
+	}
+
+	int days = between_days(date1head, date2head);
+	printf("count %d\n", days);*/
+	int nums[5] = { 1, 3, 5 };
+	int nums2[5] = { 2, 4, 6 };
+	//Last 1 is for checking whether A is circular or not .6 should again point to 1
+	int ans[10] = { 1, 2, 3, 4, 5, 6, 1 };
+
+	int l1 = 3, l2 = 3, i;
+	struct node *head1 = NULL;
+	struct node *head2 = NULL;
+	for (i = l1 - 1; i >= 0; i--){
+		addNode(&head1, nums[i]);
+	}
+	for (i = l2 - 1; i >= 0; i--){
+		addNode(&head2, nums2[i]);
+	}
+	make_it_circular(head1);
+	make_it_circular(head2);
+
+	int len = merge_circularlists(&head1, &head2);
+	printf("%d\n", len);
+	int check = is_correct(head1, ans, len + 1);
+	getchar();
 
 	//Test Circular Linked Lists
 

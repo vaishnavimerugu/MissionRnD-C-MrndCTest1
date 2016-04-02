@@ -33,5 +33,81 @@ Difficulty : Medium
 
 int * find_sequences(int *arr, int len){
 	//Return final array which has 6indexes [AP1_S,AP1_E,AP2_S,AP2_E,GP1_S,GP2_E]
+	if (arr==NULL || len<=0)
 	return NULL;
+	int *res = (int *)malloc(6 * sizeof(int));
+	int diff1 = 0, diff2=0,flag = 0;
+	for (int i = 1; i < len; i++)
+	{
+		if (i < len - 1)
+		{
+			if (arr[i] - arr[i - 1] == arr[i + 1] - arr[i] && flag == 0)
+			{
+				res[0] = i-1;
+				diff1 = arr[i] - arr[i - 1];
+				flag = 1;
+			}
+			if (arr[i] - arr[i - 1] == diff1&&arr[i + 1] - arr[i] != diff1&&flag == 1)
+			{
+				res[1] = i;
+				flag = 0;
+				break;
+			}
+		}
+		else
+		{
+			if (flag == 1)
+				res[1] = i;
+			flag = 0;
+		}
+
+	}
+	for (int i = res[1]+1; i < len; i++)
+	{
+		if (i <len - 1)
+		{
+			if (arr[i] - arr[i - 1] == arr[i + 1] - arr[i] && flag == 0)
+			{
+				res[2] = i-1;
+				diff2 = arr[i] - arr[i - 1];
+				flag = 1;
+			}
+			if (arr[i] - arr[i - 1] == diff2&&arr[i + 1] - arr[i] != diff2&&flag == 1)
+			{
+				res[3] = i;
+				flag = 0;
+				break;
+			}
+		}
+		else
+		{
+			if (flag == 1)
+				res[3] = i;
+			flag = 0;
+		}
+	}
+	float factor = 0;
+	for (int i = 1; i < len; i++)
+	{
+		if (i < len - 1)
+		{
+			if ((float)arr[i] / arr[i - 1] ==(float) arr[i + 1] / arr[i] && flag == 0)
+			{
+				factor = arr[i] / arr[i - 1];
+				flag = 1;
+				res[4] = i-1;
+			}
+			if ((float)arr[i] / arr[i - 1] == factor &&flag == 1 && arr[i + 1] / arr[i] != factor)
+			{
+				res[5] = i;
+				break;
+			}
+		}
+		else
+		{
+			if (flag == 1)
+				res[5] = i;
+		}
+	}
+	return &res[0];
 }
